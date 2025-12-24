@@ -1,0 +1,169 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "City CRUD API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/cities": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Get all cities",
+                "description": "List all cities",
+                "operationId": "37ad6fa2c33aa2ddbd0d175431a243a7",
+                "responses": {
+                    "200": {
+                        "description": "List of cities"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Create a new city",
+                "description": "Create city",
+                "operationId": "5e7b2ab311c92d3f20ed40b2e0de8e9c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "country"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Addis Ababa"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "Ethiopia"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "City created"
+                    }
+                }
+            }
+        },
+        "/api/cities/{id}": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Get a city by ID",
+                "description": "Get city by id",
+                "operationId": "2effd02e7302c2c3e7d5c8d413c256a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "City found"
+                    },
+                    "404": {
+                        "description": "City not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Update a city",
+                "description": "Update city",
+                "operationId": "e13dd0b6f9a54f3d65036023f27320e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "country"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "country": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "City updated"
+                    },
+                    "404": {
+                        "description": "City not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Delete a city",
+                "description": "Delete city",
+                "operationId": "b117fec3410baac918bbbeed4c3aa6e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "City deleted"
+                    },
+                    "404": {
+                        "description": "City not found"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Cities",
+            "description": "API Endpoints for managing cities"
+        }
+    ]
+}

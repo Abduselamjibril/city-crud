@@ -20,7 +20,27 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import CityList from './CityList';
 import CityForm from './CityForm';
 
-const API_BASE = 'http://localhost:3000/cities';
+// Use Laravel or Node backend by changing the value below:
+// Always try Laravel first, then Node.js as fallback
+const API_BASES = [
+  'http://localhost:8000/api/cities', // Laravel
+  'http://localhost:3000/cities'      // Node.js
+];
+
+// Helper to try both URLs for any fetch
+async function fetchWithFallback(urlPath = '', options = {}) {
+  let lastError;
+  for (const base of API_BASES) {
+    try {
+      const res = await fetch(base + urlPath, options);
+      if (res.ok) return res;
+      lastError = new Error(`Failed at ${base + urlPath}`);
+    } catch (err) {
+      lastError = err;
+    }
+  }
+  throw lastError || new Error('All API endpoints failed');
+}
 
 function App() {
   // --- Data State ---
@@ -65,7 +85,7 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(API_BASE);
+        const res = await fetchWithFallback();
       if (!res.ok) throw new Error('Failed to fetch cities');
       const data = await res.json();
       setCities(data);
@@ -85,7 +105,7 @@ function App() {
     try {
       if (cityData.id) {
         // Update
-        const res = await fetch(`${API_BASE}/${cityData.id}`, {
+          const res = await fetchWithFallback(`/${cityData.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: cityData.name, country: cityData.country })
@@ -95,7 +115,7 @@ function App() {
         // Add
         // Note: JSON Server generates IDs automatically, but if you need to manually:
         const payload = { ...cityData, id: String(Date.now()) }; 
-        const res = await fetch(API_BASE, {
+          const res = await fetchWithFallback('', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -116,7 +136,7 @@ function App() {
     
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' });
+      const res = await fetchWithFallback(`/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete city');
       await fetchCities();
       if (editingCity && editingCity.id === id) setEditingCity(null);
