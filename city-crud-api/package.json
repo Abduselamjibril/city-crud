@@ -1,0 +1,24 @@
+{
+  "name": "city-crud-api",
+  "version": "1.0.0",
+  "description": "Basic Express.js CRUD REST API for City resource using in-memory array.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "express",
+    "crud",
+    "rest",
+    "api",
+    "city"
+  ],
+  "author": "Full-Stack JavaScript Developer",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
